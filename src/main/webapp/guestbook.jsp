@@ -15,6 +15,9 @@
 <html>
 <head>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/>
+    <title>
+	Modification de l'exemple
+	</title>
 </head>
 
 <body>
