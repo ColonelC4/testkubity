@@ -15,9 +15,7 @@
 <html>
 <head>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/>
-    <title>
-	Modification de l'exemple
-	</title>
+    <title>Modification de l'exemple</title>
 </head>
 
 <body>
@@ -61,8 +59,15 @@
 <p>Messages in Guestbook '${fn:escapeXml(guestbookName)}'.</p>
 <%
     for (Entity greeting : greetings) {
-        pageContext.setAttribute("greeting_content",
-                greeting.getProperty("content"));
+    	if (greeting.getProperty("title") == null) {
+    		// s'il n'y a pas de titre: on met une valeur par défaut
+    		pageContext.setAttribute("greeting_title","Sans titre");
+    	} else {
+    		// il y a un titre, on l'enregistre
+    		pageContext.setAttribute("greeting_title",greeting.getProperty("title"));
+    	}
+    	
+        pageContext.setAttribute("greeting_content",greeting.getProperty("content"));
         if (greeting.getProperty("user") == null) {
 %>
 <p>An anonymous person wrote:</p>
@@ -75,6 +80,7 @@
 <%
     }
 %>
+<p>${fn:escapeXml(greeting_title)}</p>
 <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
 <%
         }
@@ -82,6 +88,7 @@
 %>
 
 <form action="/sign" method="post">
+	<div><textarea name="title" rows="1" cols="60"></textarea></div>
     <div><textarea name="content" rows="3" cols="60"></textarea></div>
     <div><input type="submit" value="Post Greeting"/></div>
     <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
@@ -91,6 +98,8 @@
     <div><input type="text" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/></div>
     <div><input type="submit" value="Switch Guestbook"/></div>
 </form>
+
+<p>Modifions un peu la page pour ajouter... 1-un titre de message.</p>
 
 </body>
 </html>

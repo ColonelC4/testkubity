@@ -36,16 +36,18 @@ public class SignGuestbookServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-    User user = userService.getCurrentUser();
+    UserService userService	= UserServiceFactory.getUserService();
+    User user 				= userService.getCurrentUser();
 
-    String guestbookName = req.getParameter("guestbookName");
-    Key guestbookKey = KeyFactory.createKey("Guestbook", guestbookName);
-    String content = req.getParameter("content");
-    Date date = new Date();
-    Entity greeting = new Entity("Greeting", guestbookKey);
+    String guestbookName	= req.getParameter("guestbookName");
+    Key guestbookKey		= KeyFactory.createKey("Guestbook", guestbookName);
+    String title			= req.getParameter("title"); // rajout du titre
+    String content 			= req.getParameter("content");
+    Date date 				= new Date();
+    Entity greeting 		= new Entity("Greeting", guestbookKey); // entitée Greeting dans bigtable
     greeting.setProperty("user", user);
     greeting.setProperty("date", date);
+    greeting.setProperty("title", title);
     greeting.setProperty("content", content);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
